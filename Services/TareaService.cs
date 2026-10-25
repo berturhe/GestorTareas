@@ -22,6 +22,17 @@ namespace GestorTareas.Services
             return await _context.Tareas.Include(t => t.Usuario).Where(t => t.Estado == estado).ToListAsync();
         }
 
+        public async Task<Tarea?> ObtenerPorIdAsync(int id)
+        {
+            return await _context.Tareas.FindAsync(id);
+        }
+
+        public async Task<bool> ActualizarAsync(Tarea tarea)
+        {
+            _context.Tareas.Update(tarea);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<List<Usuario>> ObtenerUsuariosAsync()
         {
             return await _context.Usuarios.ToListAsync();

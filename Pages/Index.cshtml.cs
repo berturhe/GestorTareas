@@ -1,3 +1,5 @@
+using GestorTareas.Models;
+using GestorTareas.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -5,15 +7,24 @@ namespace GestorTareas.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private readonly ITareaService _tareaService;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IndexModel(ITareaService tareaService)
     {
-        _logger = logger;
+       _tareaService = tareaService;
     }
 
-    public void OnGet()
-    {
+    public List<Tarea> Tareas { get; set; } = new();
 
+    public async Task OnGetAsync()
+    {
+        Tareas = await _tareaService.ObtenerTodasAsync();
     }
+
+    public async Task<IActionResult> OnPostEliminarAsync(int id)
+    {
+        await _tareaService.EliminarAsync(id);
+        return RedirectToPage("/Index");
+    }
+
 }

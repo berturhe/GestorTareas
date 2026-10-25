@@ -1,0 +1,50 @@
+﻿@page "{id:int}"
+@model GestorTareas.Pages.EditarModel
+@{
+    ViewData["Title"] = "Editar Tarea";
+}
+
+<div class="formulario-contenedor">
+    <h2>Editar Tarea</h2>
+    <form method="post">
+        <input type="hidden" asp-for="TareaVM.Id" />
+        <div class="errores-globales" asp-validation-summary="ModelOnly"></div>
+        <div class="campo">
+            <label asp-for="TareaVM.Titulo"></label>
+            <input asp-for="TareaVM.Titulo" />
+            <span class="error-validacion" asp-validation-for="TareaVM.Titulo"></span>
+        </div>
+        <div class="campo">
+            <label asp-for="TareaVM.Descripcion"></label>
+            <input asp-for="TareaVM.Descripcion" />
+            <span class="error-validacion" asp-validation-for="TareaVM.Descripcion"></span>
+        </div>
+        <div class="campo">
+            <label asp-for="TareaVM.FechaVencimiento"></label>
+            <input type="date" asp-for="TareaVM.FechaVencimiento" />
+            <span class="error-validacion" asp-validation-for="TareaVM.FechaVencimiento"></span>
+        </div>
+        <div class="campo">
+            <label asp-for="TareaVM.Estado"></label>
+            <select asp-for="TareaVM.Estado">
+                <option value="Pendiente">Pendiente</option>
+                <option value="En Progreso">En Progreso</option>
+                <option value="Completada">Completada</option>
+            </select>
+            <span class="error-validacion" asp-validation-for="TareaVM.Estado"></span>
+        </div>
+        <div class="campo">
+            <label asp-for="TareaVM.UsuarioId"></label>
+            <select asp-for="TareaVM.UsuarioId" asp-items="Model.TareaVM.VisualizarUsuarios"></select>
+            <span class="error-validacion" asp-validation-for="TareaVM.UsuarioId"></span>
+        </div>
+        <div class="acciones">
+            <a asp-page="/Index">Cancelar</a>
+            <button type="submit">Actualizar Cambios</button>
+        </div>        
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+}
