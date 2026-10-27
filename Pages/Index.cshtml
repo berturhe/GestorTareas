@@ -13,30 +13,38 @@
     @Html.AntiForgeryToken()
 
     <main class="contenedor-datos-base">
-        @foreach (var tarea in Model.Tareas)
+        @foreach (var grupo in Model.TareasPorEstado)
         {
-            <div class="registro-tarea-test" data-estado="@tarea.Estado">
-                <div class="tarjeta-encabezado">
-                    <h3>@tarea.Titulo</h3>
-                </div>
-                <div class="tarjeta-cuerpo">
-                    <p>@tarea.Descripcion</p>
-                </div>
-                <div class="tarjeta-metadatos">
-                    <span class="fecha-limite">
-                        📅 @tarea.FechaVencimiento.ToShortDateString()
-                    </span>
-                    <span class="responsable">
-                        👤 @(tarea.Usuario?.Nombre ?? "Sin asignar")
-                    </span>
-                </div>
-                <div class="opciones">
-                    <a asp-page="/Editar" asp-route-id="@tarea.Id" class="btn-editar">Editar</a>
-                    <form method="post" asp-page-handler="Eliminar" asp-route-id="@tarea.Id" onsubmit="return confirm('¿Seguro desea eliminar esta tarea?');" style="display:inline;">
-                        <button type="submit" class="btn-eliminar">Eliminar</button>
-                    </form>
-                </div>
-            </div>
+            <div class="columna-kanban">
+                <h2 class="columna-titulo">@grupo.Key</h2>
+                <div class="grupo-tarjetas">
+                     @foreach (var tarea in grupo.Value)
+                     {
+                         <div class="registro-tarea-test" data-estado="@tarea.Estado">
+                            <div class="tarjeta-encabezado">
+                                <h3>@tarea.Titulo</h3>
+                            </div>
+                            <div class="tarjeta-cuerpo">
+                                <p>@tarea.Descripcion</p>
+                            </div>
+                            <div class="tarjeta-metadatos">
+                                <span class="fecha-limite">
+                                    📅 @tarea.FechaVencimiento.ToShortDateString()
+                                </span>
+                                <span class="responsable">
+                                    👤 @(tarea.Usuario?.Nombre ?? "Sin asignar")
+                                </span>
+                            </div>
+                            <div class="opciones">
+                                <a class="btn-editar" asp-page="/Editar" asp-route-id="@tarea.Id">Editar</a>
+                                <form method="post" asp-page-handler="Eliminar" asp-route-id="@tarea.Id" onsubmit="return confirm('¿Seguro desea eliminar esta tarea?');" style="display:inline;">
+                                    <button type="submit" class="btn-eliminar">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                     }
+                </div>                
+            </div>            
         }
     </main>
 </div>
