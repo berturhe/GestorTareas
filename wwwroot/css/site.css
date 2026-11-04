@@ -1,7 +1,4 @@
-/* ==========================================================================
-   FASE 3: HOJA DE ESTILOS CENTRALIZADA - UNIVERSAL & ATÓMICA
-   ========================================================================== */
-
+/* Variables Globales */
 :root {
     --color-pendiente: #17a2b8;
     --color-progreso: #ffc107;
@@ -26,7 +23,7 @@ body {
     padding: 0;
 }
 
-/* --- 1. ESTILOS DEL LAYOUT COMPARTIDO --- */
+/* Layout Principal */
 .navbar-simple {
     background-color: #ffffff;
     border-bottom: 1px solid var(--borde-suave);
@@ -62,7 +59,7 @@ body {
     text-align: center;
 }
 
-/* --- 2. CONTENEDORES DEL TABLERO KANBAN --- */
+/* Tablero Kanban */
 .modulo_tareas {
     margin: 0 auto;
 }
@@ -131,7 +128,7 @@ body {
     gap: 12px;
 }
 
-/* --- 3. DISEÑO DE TARJETAS --- */
+/* Tarjetas */
 .registro-tarea-test {
     background: var(--bg-tarjeta);
     border: 1px solid var(--borde-suave);
@@ -215,7 +212,18 @@ body {
         background: #ffe3e3;
     }
 
-/* Estilizado dinámico por estado usando selectores de atributos */
+.select-estado {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid var(--borde-suave);
+    background-color: #ffffff;
+    color: var(--texto-principal);
+    font-size: 0.82rem;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+/* Colores de estado */
 .registro-tarea-test[data-estado="Pendiente"] {
     border-left-color: var(--color-pendiente);
 }
@@ -228,8 +236,7 @@ body {
     border-left-color: var(--color-completada);
 }
 
-
-/* --- 4. FORMULARIOS DE CREACIÓN Y EDICIÓN --- */
+/* Formularios */
 .formulario-contenedor {
     max-width: 550px;
     margin: 30px auto;
@@ -325,7 +332,7 @@ body {
             background-color: #218838;
         }
 
-/* --- 5. VALIDACIÓN Y RESPONSIVE --- */
+/* Validaciones */
 .error-validacion {
     font-size: 0.82rem;
     color: var(--color-error);
@@ -341,11 +348,27 @@ body {
     margin-bottom: 25px;
 }
 
-    /* Ocultar contenedores de error si están vacíos (Optimización de espacios) */
     .errores-globales:empty, .error-validacion:empty {
         display: none;
     }
 
+/* Animaciones */
+@keyframes resaltarTarjeta {
+    0% {
+        box-shadow: 0 0 0 3px #007bff;
+    }
+
+    100% {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+}
+
+.resaltado {
+    animation: resaltarTarjeta 1.5s ease-out;
+}
+
+
+/* Responsive */
 @media (max-width: 900px) {
     .contenedor-datos-base {
         flex-direction: column;

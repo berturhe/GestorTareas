@@ -14,16 +14,14 @@ public class IndexModel : PageModel
        _tareaService = tareaService;
     }
 
-    public Dictionary<string, List<Tarea>> TareasPorEstado { get; set; } = new();    
+    public Dictionary<string, List<Tarea>> TareasPorEstado { get; set; } = new();
+    public List<string> EstadosDisponibles { get; set; } = new(){ "Pendiente", "En Progreso", "Completada" };
 
     public async Task OnGetAsync()
     {
         var tareas = await _tareaService.ObtenerTodasAsync();
 
-        var ordenColumnas = new List<string> { "Pendiente", "En Progreso", "Completada" };
-
         TareasPorEstado = tareas.GroupBy(t=>t.Estado)
-            .OrderBy(g => ordenColumnas.IndexOf(g.Key))
             .ToDictionary(g=>g.Key,g=>g.ToList());
     }
 
@@ -31,6 +29,18 @@ public class IndexModel : PageModel
     {
         await _tareaService.EliminarAsync(id);
         return RedirectToPage("/Index");
+    }
+
+    public async Task<IActionResult> OnPostCambiarEstadoAsync(int id,string nuevoEstado)
+    {
+        var exito = await _tareaService.ActualizarEstadoAsync(id, nuevoEstado);
+
+        return new JsonResult(new
+        {
+            success = exito,
+            id = id,
+            nuevoEstado = nuevoEstado
+        });
     }
 
 }
